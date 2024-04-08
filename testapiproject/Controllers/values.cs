@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MyApp.Namespace
+namespace testapiproject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class valuesController : ControllerBase
+    public class Values : ControllerBase
     {
         [HttpGet]
-        public string GetValues(){
-            return "12312312";
+        public string defaultoutput()
+        {
+            return "Hello World";
         }
     }
 }
