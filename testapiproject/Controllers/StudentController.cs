@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using testapiproject.Models;
 
@@ -10,32 +11,75 @@ namespace testapiproject.Controllers
     {
         [HttpGet]
         [Route("All")]
-        public IEnumerable<Student> GetStudent()
+        public ActionResult<IEnumerable<Student>> GetStudent()
         {
-            return CollegeRepository.students;
+            return Ok(CollegeRepository.students);
         }
 
         [HttpGet]
         [Route("{id:int}", Name = "GetStudentById")]
-        public Student GetStudentById(int id)
+        [ProducesResponseType(200, Type = typeof(Student))] // can document the type here or else near the ActionResult.
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public ActionResult GetStudentById(int id)
         {
-            return CollegeRepository.students.Where(n => n.ID == id).FirstOrDefault();
+            //Bad Request -400 bad request
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+            var student = CollegeRepository.students.Where(n => n.ID == id).FirstOrDefault();
+            //Not found - 404 - not found - client Error
+            if (student == null)
+            {
+                return NotFound($"The student with id {id} not found");
+            }
+
+            return Ok(student);
 
         }
+
         [HttpGet]
         [Route("{name:alpha}", Name = "GetStudentByName")]
-        public Student GetStudentByName(string name)
+        // instead of remembering each status of code they can also be written as below
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<Student> GetStudentByName(string name)
         {
-            return CollegeRepository.students.Where(n => n.Name == name).FirstOrDefault();
+            if (string.IsNullOrEmpty(name))
+            {
+                return BadRequest();
+            }
+            var student = CollegeRepository.students.Where(n => n.Name == name).FirstOrDefault();
+            if (student == null)
+            {
+                return NotFound($"The student with name {name} not found");
+            }
+            return Ok(student);
 
         }
 
         [HttpDelete("{id:int}", Name = "DeleteById")]
-        public bool DeleteStudenById(int id)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public ActionResult<bool> DeleteStudenById(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
             var student = CollegeRepository.students.Where(n => n.ID == id).FirstOrDefault();
+            if (student == null)
+            {
+                return NotFound($"The student with the id {id} does not exist"); ;
+            }
             CollegeRepository.students.Remove(student);
-            return true;
+            return Ok(true);
 
         }
 
