@@ -11,9 +11,33 @@ namespace testapiproject.Controllers
     {
         [HttpGet]
         [Route("All")]
-        public ActionResult<IEnumerable<Student>> GetStudent()
+        public ActionResult<IEnumerable<StudentDTO>> GetStudent()
         {
-            return Ok(CollegeRepository.students);
+            //Introducing DTO here instead of returning the data directly from the database.
+            var studentsdto = new List<StudentDTO>();
+
+            // foreach (var student in CollegeRepository.students)
+            // {
+            //     StudentDTO obj = new StudentDTO()
+            //     {
+            //         ID = student.ID,
+            //         Name = student.Name,
+            //         Email = student.Email,
+            //         Phone = student.Phone
+            //     };
+            //     studentsdto.Add(obj);
+            // }
+
+            // the same StudentDTO is implemented using the LINQ query
+            studentsdto = CollegeRepository.students.Select(x => new StudentDTO()
+            {
+                Name = x.Name,
+                ID = x.ID,
+                Email = x.Email,
+                Phone = x.Phone
+            }).ToList();
+
+            return Ok(studentsdto);//Returning StudentDTO object as the output for ths Action Result. 
         }
 
         [HttpGet]
@@ -22,7 +46,7 @@ namespace testapiproject.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public ActionResult GetStudentById(int id)
+        public ActionResult<StudentDTO> GetStudentById(int id)
         {
             //Bad Request -400 bad request
             if (id <= 0)
@@ -35,8 +59,16 @@ namespace testapiproject.Controllers
             {
                 return NotFound($"The student with id {id} not found");
             }
+            // 
+            var studentdto = new StudentDTO()
+            {
+                ID = student.ID,
+                Name = student.Name,
+                Email = student.Email,
+                Phone = student.Phone
+            };
 
-            return Ok(student);
+            return Ok(studentdto);
 
         }
 
@@ -47,7 +79,7 @@ namespace testapiproject.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<Student> GetStudentByName(string name)
+        public ActionResult<StudentDTO> GetStudentByName(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -58,7 +90,14 @@ namespace testapiproject.Controllers
             {
                 return NotFound($"The student with name {name} not found");
             }
-            return Ok(student);
+            var studentdto = new StudentDTO()
+            {
+                ID = student.ID,
+                Name = student.Name,
+                Phone = student.Phone,
+                Email = student.Email
+            };
+            return Ok(studentdto);
 
         }
 
