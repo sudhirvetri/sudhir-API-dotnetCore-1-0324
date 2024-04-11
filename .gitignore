@@ -1,0 +1,18 @@
+# Ignore compiled binaries
+*.dll
+*.pdb
+
+# Ignore generated files
+values.xml
+testapiproject.assemblyinfoinputs.cache
+testapiproject.sourcelink.json
+
+# Ignore Mono-related files
+.mono/
+.mono/registry/
+
+# Ignore build output directories
+bin/
+obj/
+testapiproject/bin/
+testapiproject/obj/
