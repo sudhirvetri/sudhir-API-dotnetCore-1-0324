@@ -119,8 +119,42 @@ namespace testapiproject.Controllers
             }
             CollegeRepository.students.Remove(student);
             return Ok(true);
+        }
+
+        [HttpPost]
+        [Route("Create")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<StudentDTO> CreateStudent([FromBody] StudentDTO model)
+        {
+            if (model == null)
+            {
+                return BadRequest();
+            }
+            // if (CollegeRepository.students?.Any() != true)
+            // {
+            //     return BadRequest("No existing students found.");
+            // }
+            //int newId = CollegeRepository.students.LastOrDefault().ID + 1;
+            var lastStudent = CollegeRepository.students.LastOrDefault();
+            // Calculate the new ID
+            int newId = (lastStudent?.ID ?? 0) + 1;
+            Student student = new Student
+            {
+                ID = newId,
+                Name = model.Name,
+                Email = model.Email,
+                Phone = model.Phone
+            };
+
+            CollegeRepository.students.Add(student);
+            model.ID = student.ID;
+
+            return Ok(model);
 
         }
+
 
 
     }
