@@ -129,6 +129,10 @@ namespace testapiproject.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<StudentDTO> CreateStudent([FromBody] StudentDTO model)
         {
+            // use the below if condition if [APIController] is not avaialble. 
+            // if (!ModelState.IsValid)
+            //     return BadRequest(ModelState);
+
             if (model == null)
             {
                 return BadRequest();
