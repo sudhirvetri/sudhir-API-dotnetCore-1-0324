@@ -124,6 +124,7 @@ namespace testapiproject.Controllers
         [HttpPost]
         [Route("Create")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(400)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<StudentDTO> CreateStudent([FromBody] StudentDTO model)
@@ -151,7 +152,8 @@ namespace testapiproject.Controllers
             CollegeRepository.students.Add(student);
             model.ID = student.ID;
 
-            return Ok(model);
+            //return Ok(model);// this return statement only returns 200 response however, if we need to return 201 we need to follow the below
+            return CreatedAtRoute("GetStudentById", new { ID = model.ID }, model);
 
         }
 
