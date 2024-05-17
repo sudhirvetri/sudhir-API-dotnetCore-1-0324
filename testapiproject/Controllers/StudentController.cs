@@ -34,7 +34,8 @@ namespace testapiproject.Controllers
                 Name = x.Name,
                 ID = x.ID,
                 Email = x.Email,
-                Phone = x.Phone
+                Phone = x.Phone,
+                AdmissionDate = x.AdmissionDate
             }).ToList();
 
             return Ok(studentsdto);//Returning StudentDTO object as the output for ths Action Result. 
@@ -137,6 +138,15 @@ namespace testapiproject.Controllers
             {
                 return BadRequest();
             }
+
+            // if (model.AdmissionDate < DateTime.Now)
+            // {
+            //     ModelState.AddModelError("AdmissionDate Error", "Admission date should be greater than or equal to Todays date");
+            //     return BadRequest(ModelState);
+            // }
+
+
+
             // if (CollegeRepository.students?.Any() != true)
             // {
             //     return BadRequest("No existing students found.");
@@ -150,7 +160,8 @@ namespace testapiproject.Controllers
                 ID = newId,
                 Name = model.Name,
                 Email = model.Email,
-                Phone = model.Phone
+                Phone = model.Phone,
+                AdmissionDate = model.AdmissionDate
             };
 
             CollegeRepository.students.Add(student);

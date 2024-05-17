@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using testapiproject.Validators;
 
 namespace testapiproject.Models
 {
@@ -17,11 +18,9 @@ namespace testapiproject.Models
 
         [RegularExpression(@"^(\+91)?[6-9]\d{9}$", ErrorMessage = "Please enter a valid Indian phone number.")]
         public long Phone { get; set; }
-        [Range(10, 20)]
-        public int age { get; set; }
-        public int password { get; set; }
 
-        [Compare("password")]
-        public int confirmpassword { get; set; }
+        [DateCheck]
+        public DateTime AdmissionDate { get; set; }
+
     }
 }
