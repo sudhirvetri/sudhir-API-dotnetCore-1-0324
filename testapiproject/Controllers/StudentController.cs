@@ -173,6 +173,33 @@ namespace testapiproject.Controllers
         }
 
 
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult UpdateStudent([FromBody] StudentDTO model)
+        {
+            if (model == null || model.ID <= 0)
+            {
+                return BadRequest("No data found to update");
+            }
+
+            var existingStudent = CollegeRepository.students.Where(n => n.ID == model.ID).FirstOrDefault();
+            if (existingStudent == null)
+            {
+                return NotFound("No student with the provided ID exist in our repository");
+            }
+
+            existingStudent.Name = model.Name;
+            existingStudent.Email = model.Email;
+            existingStudent.Phone = model.Phone;
+
+            return NoContent();
+
+        }
+
+
 
     }
 }
