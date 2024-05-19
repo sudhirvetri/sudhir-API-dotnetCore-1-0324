@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using testapiproject.Models;
 
@@ -174,6 +175,7 @@ namespace testapiproject.Controllers
 
 
         [HttpPut]
+        [Route("Update")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -199,7 +201,49 @@ namespace testapiproject.Controllers
 
         }
 
+        [HttpPatch]
+        [Route("{id:int}/UpdatePartial")]
+        //api/student/1/UpdatePartial
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult UpdateStudentPartial(int id, [FromBody] JsonPatchDocument<StudentDTO> patchDocument)
+        {
+            if (patchDocument == null || id <= 0)
+            {
+                return BadRequest("No data found to update");
+            }
+
+            var existingStudent = CollegeRepository.students.Where(n => n.ID == id).FirstOrDefault();
+            if (existingStudent == null)
+            {
+                return NotFound("No student with the provided ID exist in our repository");
+            }
+
+            var studentDTO = new StudentDTO
+            {
+                ID = existingStudent.ID,
+                Name = existingStudent.Name,
+                Email = existingStudent.Email,
+                Phone = existingStudent.Phone
+            };
+
+            patchDocument.ApplyTo(studentDTO, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
 
+
+            existingStudent.Name = studentDTO.Name;
+            existingStudent.Email = studentDTO.Email;
+            existingStudent.Phone = studentDTO.Phone;
+
+            return NoContent();
+
+        }
     }
 }
