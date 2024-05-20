@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using testapiproject.Models;
+using testapiproject.MyLogging;
 
 namespace testapiproject.Controllers
 {
@@ -10,10 +11,18 @@ namespace testapiproject.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
+        private readonly IMyLogger _myLogger;
+
+        public StudentController()
+        {
+            _myLogger = new LogToFile();
+        }
+
         [HttpGet]
         [Route("All")]
         public ActionResult<IEnumerable<StudentDTO>> GetStudent()
         {
+           // _myLogger.Log("Inside the Get All method of student controller.");
             //Introducing DTO here instead of returning the data directly from the database.
             var studentsdto = new List<StudentDTO>();
 
