@@ -13,16 +13,16 @@ namespace testapiproject.Controllers
     {
         private readonly IMyLogger _myLogger;
 
-        public StudentController()
+        public StudentController(IMyLogger myLogger)
         {
-            _myLogger = new LogToFile();
+            _myLogger = myLogger;
         }
 
         [HttpGet]
         [Route("All")]
         public ActionResult<IEnumerable<StudentDTO>> GetStudent()
         {
-           // _myLogger.Log("Inside the Get All method of student controller.");
+            _myLogger.Log("Inside the Get All method of student controller.");
             //Introducing DTO here instead of returning the data directly from the database.
             var studentsdto = new List<StudentDTO>();
 

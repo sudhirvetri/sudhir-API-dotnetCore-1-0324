@@ -11,9 +11,10 @@ namespace testapiproject.Controllers
         //2. loosely coupled 
 
         private readonly IMyLogger _myLogger;
-        public DemoController()
+        public DemoController(IMyLogger myLogger)
         {
-            _myLogger = new LogToServerMemory();
+            //_myLogger = new LogToServerMemory();
+            _myLogger = myLogger;
         }
 
         [HttpGet]
