@@ -1,9 +1,9 @@
 using testapiproject.MyLogging;
 
 var builder = WebApplication.CreateBuilder(args);
-// builder.Logging.ClearProviders();
-// builder.Logging.AddConsole();
-//  builder.Logging.AddDebug();
+builder.Logging.ClearProviders(); //clears all logging providers
+//builder.Logging.AddConsole();
+builder.Logging.AddDebug(); // allows only debug logs 
 
 
 // Add services to the container.
