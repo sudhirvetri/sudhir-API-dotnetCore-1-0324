@@ -62,6 +62,7 @@ namespace testapiproject.Controllers
             //Bad Request -400 bad request
             if (id <= 0)
             {
+                _logger.LogError($"The used id is {id} is invalid id");
                 return BadRequest();
             }
             var student = CollegeRepository.students.Where(n => n.ID == id).FirstOrDefault();
