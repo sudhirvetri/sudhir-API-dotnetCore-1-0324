@@ -19,3 +19,4 @@ testapiproject/obj/
 
 # Ignore log files
 *.log
+log/
