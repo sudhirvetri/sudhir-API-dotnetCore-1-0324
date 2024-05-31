@@ -16,3 +16,6 @@ bin/
 obj/
 testapiproject/bin/
 testapiproject/obj/
+
+# Ignore log files
+*.log
