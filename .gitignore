@@ -18,5 +18,5 @@ testapiproject/bin/
 testapiproject/obj/
 
 # Ignore log files
-*.log
-log/
+log*.txt
+Log/
