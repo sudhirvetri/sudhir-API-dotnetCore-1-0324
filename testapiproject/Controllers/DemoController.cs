@@ -22,7 +22,7 @@ namespace testapiproject.Controllers
         {
             _myLogger.LogTrace("Log message from trace method");
             _myLogger.LogDebug("Log message from Debug method");
-            _myLogger.LogInformation("Log message from Debug method");
+            _myLogger.LogInformation("Log message from Information method");
             _myLogger.LogWarning("Log message from warning method");
             _myLogger.LogError("Log message from Error method");
             _myLogger.LogCritical("Log message from Critical method");
