@@ -2,10 +2,21 @@ using testapiproject.MyLogging;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region log4net
+builder.Logging.ClearProviders();
+builder.Logging.AddLog4Net();
+#endregion
+
+
+#region defaultlogproviders
 //builder.Logging.ClearProviders(); //clears all logging providers
 // builder.Logging.AddConsole();
 // builder.Logging.AddDebug(); // allows only debug logs 
+#endregion
 
+#region Serilog settings
+/*
 Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .WriteTo.File("Log/log.txt", rollingInterval: RollingInterval.Minute)
@@ -13,6 +24,9 @@ Log.Logger = new LoggerConfiguration()
 
 //builder.Services.AddSerilog();// - this will override the  built in log provider and allow only the serilog
 builder.Logging.AddSerilog();  // this will allow both defaul providers and the serilogs
+*/
+#endregion
+
 
 // Add services to the container.
 builder.Services.AddControllers(options => options.ReturnHttpNotAcceptable = true).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
