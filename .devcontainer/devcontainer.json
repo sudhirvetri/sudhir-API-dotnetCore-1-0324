@@ -1,7 +1,7 @@
 {
-  "name": ".NET in Codespaces",
-  "image": "mcr.microsoft.com/dotnet/sdk:8.0",
-   "features": {
+    "name": ".NET in Codespaces",
+    "image": "mcr.microsoft.com/dotnet/sdk:8.0",
+    "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
         "ghcr.io/devcontainers/features/github-cli:1": {
             "version": "2"
@@ -16,10 +16,11 @@
         "ghcr.io/devcontainers/features/dotnet:2": {
             "version": "none",
             "dotnetRuntimeVersions": "7.0",
-            "aspNetCoreRuntimeVersions": "7.0"
+            "aspNetCoreRuntimeVersions": "7.0",
+            "sqlite": true
         }
     },
-  "customizations": {
+    "customizations": {
         "vscode": {
             "extensions": [
                 "ms-vscode.vscode-node-azure-pack",
@@ -27,15 +28,17 @@
                 "GitHub.vscode-github-actions",
                 "ms-dotnettools.vscode-dotnet-runtime",
                 "ms-dotnettools.csdevkit",
-                "ms-dotnetools.csharp"
-            ]
+                "ms-dotnetools.csharp",
+                "alexcvzz.vscode-sqlite"
+            ],
+            "postCreateCommand": "sudo apt-get update && sudo apt-get install -y sqlite3"
         }
-  },
-  "hostRequirements": {
+    },
+    "hostRequirements": {
         "memory": "8gb",
         "cpus": 4
     },
-  "remoteEnv": {
+    "remoteEnv": {
         "DOTNET_MULTILEVEL_LOOKUP": "0",
         "TARGET": "net8.0"
     }
